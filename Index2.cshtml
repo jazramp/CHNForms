@@ -1,0 +1,558 @@
+﻿@model Sabio.Web.Models.ViewModels.CHNFormViewModel
+@{
+    ViewBag.Title = "Index2";
+    Layout = "~/Views/Shared/_LayoutPretty.cshtml";
+}
+
+<style>
+    .ibox-title {
+        background-color: #1AB394;
+        color: white;
+        text-align: center;
+        padding: 10px;
+    }
+
+    h1 > small {
+        color: white;
+    }
+
+    .target {
+        margin-top: 50px;
+    }
+
+    #test {
+        margin-left: 20px;
+    }
+
+    .history-table {
+        margin-left: 5%;
+    }
+
+    #clientSidebar {
+        position: relative;
+    }
+
+    .sidebar-info {
+        text-align: left;
+    }
+
+    .sidebar-info-block {
+        padding-left: 0px;
+        padding-bottom: 15px;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+    }
+
+    .empty-history {
+        margin-top: 5px;
+        color: #acacac;
+    }
+
+    #btn-step2 {
+        float: right;
+    }
+
+    .link:hover {
+        text-decoration: underline;
+
+    }
+
+    .checkbox {
+        padding-left: 200px;
+    }
+</style>
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <h2>California Hospital Network Form</h2>
+</div>
+
+<div class="row wrapper target">
+    <div class="col-md-6 col-md-offset-1">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h1><strong>California Hospital Network Form</strong></h1>
+            </div>
+
+            <div class="ibox-content" data-ng-controller="ChnFormController as main" data-ng-cloak>
+                <form method="get" class="form-horizontal" id="ChnForm" data-ng-submit="main.onSubmitClick()" name="main.ChnForm1" novalidate>
+
+                    @*Scar Report - Radio Buttons*@
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Add to Scar Report?</label>
+                        <div class="col-sm-4">
+                            <label id="radio-label" class="col-sm-4 checkbox-inline i-checks">
+                                <input type="radio"
+                                       name="scarReport"
+                                       class="check-box1"
+                                       data-ng-model="main.chnFormData.scarReport"
+                                       data-ng-required="!main.ChnForm1.scarReport"
+                                       data-ng-class="{'error': main.showCHNErrors && !main.ChnForm1.scarReport.$valid}"
+                                       id="checkboxYes-1"
+                                       data-ng-value="true">
+                                Yes
+                            </label>
+                            <label id="radio-label" class="col-sm-4 checkbox-inline i-checks">
+                                <input type="radio"
+                                       name="scarReport"
+                                       class="check-box1"
+                                       data-ng-model="main.chnFormData.scarReport"
+                                       data-ng-required="!main.ChnForm1.scarReport"
+                                       data-ng-class="{'error': main.showCHNErrors && !main.ChnForm1.scarReport.$valid}"
+                                       id="checkboxNo-1"
+                                       data-ng-value="false">
+                                No
+                            </label>
+                        </div>
+                        <div role="alert" class="help-inline-error">
+                            <span class="error" data-ng-show="main.showCHNErrors && main.ChnForm1.scarReport.$error.required">This field is required</span>
+                        </div>
+                    </div>
+
+                    @*Chief Complaint*@
+                    <div class="form-group form-field description">
+                        <label class="col-sm-4 control-label">Chief Complaint</label>
+                        <div class="col-sm-8">
+                            <textarea cols="5" rows="6" class="form-control comField"
+                                      data-ng-model="main.chnFormData.chiefComplaint"
+                                      data-ng-class="{'error': main.showCHNErrors && !main.ChnForm1.complaintInput.$valid}"
+                                      placeholder="Complaint Description..."
+                                      name="complaintInput"
+                                      id="complaintInput"
+                                      data-ng-required="!main.ChnForm1.chiefComplaint"></textarea>
+                            <div role="alert" class="help-inline-error error">
+                                <span class="error" data-ng-show="main.showCHNErrors && main.ChnForm1.complaintInput.$error.required">This field is required</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*Present Illness*@
+                    <div class="form-group form-field description">
+                        <label class="col-sm-4 control-label">Present Illness</label>
+                        <div class="col-sm-8">
+                            <textarea cols="5" rows="6" class="form-control"
+                                      data-ng-model="main.chnFormData.presentIllness"
+                                      data-ng-class="{'error': main.showCHNErrors && !main.ChnForm1.illnessInput.$valid}"
+                                      placeholder="Describe Illness..."
+                                      name="illnessInput"
+                                      id="illnessInput"
+                                      data-ng-required="!main.ChnForm1.presentIllness"></textarea>
+                            <div role="alert" class="help-inline-error error">
+                                <span class="error" data-ng-show="main.showCHNErrors && main.ChnForm1.illnessInput.$error.required">This field is required</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*Past History*@
+                    <div class="form-group form-field description">
+                        <label class="col-sm-4 control-label">Past History</label>
+                        <div class="col-sm-8">
+                            <textarea cols="5" rows="6" class="form-control"
+                                      data-ng-model="main.chnFormData.pastHistory"
+                                      data-ng-required="!main.ChnForm1.pastHistory"
+                                      data-ng-class="{'error': main.showCHNErrors && !main.ChnForm1.historyInput.$valid}"
+                                      placeholder="Past History Description..."
+                                      name="historyInput"
+                                      id="historyInput"></textarea>
+                            <div role="alert" class="help-inline-error error">
+                                <span class="error" data-ng-show="main.showCHNErrors && main.ChnForm1.historyInput.$error.required">This field is required</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*Prior Medical History - Radio Buttons*@
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Prior Medical History Provided?</label>
+                        <div class="col-sm-4">
+                            <label id="radio-label" class="col-sm-4 checkbox-inline i-checks">
+                                <input type="radio"
+                                       name="priorMedHistoryProvided"
+                                       class="check-box1"
+                                       data-ng-model="main.chnFormData.priorMedHistoryProvided"
+                                       data-ng-required="!main.ChnForm1.priorMedHistoryProvided"
+                                       data-ng-class="{'error': main.showCHNErrors && !main.ChnForm1.priorMedHistoryProvided.$valid}"
+                                       id="checkboxYes-1"
+                                       data-ng-value="true">
+                                Yes
+                            </label>
+                            <label id="radio-label" class="col-sm-4 checkbox-inline i-checks">
+                                <input type="radio"
+                                       name="priorMedHistoryProvided"
+                                       class="check-box1"
+                                       data-ng-model="main.chnFormData.priorMedHistoryProvided"
+                                       data-ng-required="!main.ChnForm1.priorMedHistoryProvided"
+                                       data-ng-class="{'error': main.showCHNErrors && !main.ChnForm1.priorMedHistoryProvided.$valid}"
+                                       id="checkboxNo-1"
+                                       data-ng-value="false">
+                                No
+                            </label>
+                        </div>
+                        <div role="alert" class="help-inline-error">
+                            <span class="error" data-ng-show="main.showCHNErrors && main.ChnForm1.priorMedHistoryProvided.$error.required">This field is required</span>
+                        </div>
+                    </div>
+
+
+                    @*Records Provided*@
+                    <div class="form-group form-field description">
+                        <label class="col-sm-4 control-label">Records Provided</label>
+                        <div class="col-sm-8">
+                            <textarea cols="5" rows="6" class="form-control"
+                                      data-ng-model="main.chnFormData.recordsProvided"
+                                      data-ng-required="!main.ChnForm1.recordsProvided"
+                                      data-ng-class="{'error': main.showCHNErrors && !main.ChnForm1.recordsInput.$valid}"
+                                      placeholder="List Records Provided..."
+                                      name="recordsInput"
+                                      id="recordsInput"></textarea>
+                            <div role="alert" class="help-inline-error error">
+                                <span class="error" data-ng-show="main.showCHNErrors && main.ChnForm1.recordsInput.$error.required">This field is required</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*Objects that caused injury*@
+
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">
+                            Objects That Caused Injury<br />
+                            <small class="text-navy">Check all that apply</small>
+                        </label>
+                        <div class="col-sm-10" id="objects-checkboxes">
+                            <div data-ng-repeat="object in main.objects" class="i-checks checkbox">
+                                <input data-ng-class="{'error': main.showCHNErrors && main.objectsSelected ==null}"
+                                       data-ng-model="main.objectsSelected[object.id]"
+                                       type="checkbox"
+                                       value="{{object.id}}"
+                                       name="object-checkbox"
+                                       id="checkbox-name" />
+                                <label id="checkbox-label">{{object.name}}</label>
+                            </div>
+                            <div role="alert" class="help-inline-error">
+                                <span class="error" data-ng-show="main.showCHNErrors && !main.checkBoxValidate()">This field is required</span>
+                            </div>
+                        </div>
+                    </div>
+                    <pre>{{main.objectsSelected| json}}</pre>
+
+                    @*Other textfields*@
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">
+                            Other Adult Risk Factors <br/>
+                        </label>
+                        <div class="col-sm-8">
+                            <input type="text" 
+                                   name="adultRiskInput" 
+                                   data-ng-model="main.chnFormData.otherAdultRiskFactors"
+                                   data-ng-class="{'error': main.CHNErrors && !main.ChnForm1.adultRiskInput.$valid}"
+                                   id="adultRiskInput"
+                                   data-ng-required="!main.ChnForm1.adultRiskInput"
+                                   />
+                            <div role="alert" class="help-inline-error error">
+                                <span class="error" data-ng-show="main.showCHNErrors && main.ChnForm1.adultRiskInput.$error.required">This field is required</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <pre>{{main.chnFormData | json}}</pre>
+                    <button class="btn btn-primary" type="button" id="chnFormBtn" align="center" value="Submit" data-ng-click="main.submitBtnClick(main.chnFormData)">Submit</button>
+                    <button type="button" class="btn btn-success" id="resetBtn" data-ng-click="main.onResetBtnClick()">Reset</button>
+                    <button class="btn btn-primary hidden" type="button" id="btn-step2">Next Step</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script src="/Scripts/sabio/core/sabio.ui.js"></script>
+    <script src="~/Scripts/notification.service.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.validate.js"></script>
+    <script type="text/javascript" src="~/Scripts/sabio.services.chnForm.js"></script>
+    <script type="text/javascript" src="~/Scripts/sabio.services.objects.js"></script>
+    <script type="text/javascript">
+        @if(Model.ClientId.HasValue)
+        {
+            @:sabio.page.clientId = @Model.ClientId.Value;
+                                                                }
+        @if(Model.CHNFormId != null)
+        {
+            @:sabio.page.chnFormId = @Model.CHNFormId;
+                                                                };
+
+    </script>
+
+    <script type="text/javascript">
+        (function() {
+            "use strict";
+
+            angular.module(APPNAME)
+                .factory('$ChnForm1', ChnForm1);
+
+            ChnForm1.$inject = ['$baseService'];
+
+            function ChnForm1($baseService) {
+
+                var aServiceObject = sabio.services.chnForm;
+
+                var newService = $baseService.merge(true, {}, aServiceObject, $baseService);
+
+                return newService;
+
+            }
+        })();
+
+        (function() {
+            "use strict";
+
+            angular.module(APPNAME)
+                .factory('$objectsService', ObjectsService);
+
+            ObjectsService.$inject = ['$baseService'];
+
+            function ObjectsService($baseService) {
+
+                var aServiceObject = sabio.services.objects;
+
+                var newService = $baseService.merge(true, {}, aServiceObject, $baseService);
+
+                return newService;
+            }
+        })();
+
+        (function() {
+            "use strict";
+
+            var myApp = angular.module(APPNAME);
+
+            myApp.controller('ChnFormController', CHNController);
+
+            CHNController.$inject = ['$scope', '$baseController', '$notificationService', '$ChnForm1', '$objectsService'];
+
+            function CHNController(
+                $scope
+                ,$baseController
+                ,$notificationService
+                ,$ChnForm1
+                ,$objectsService
+                ) {
+
+                var vm = this;
+
+                $baseController.merge(vm, $baseController);
+                vm.$scope = $scope;
+                vm.$notificationService = $notificationService;
+                vm.$ChnForm1 = $ChnForm1;
+                vm.$objectsService = $objectsService;
+
+                vm.Chn = null;
+                //vm.objects = null;
+                vm.newCHNForm = true;
+                vm.showCHNErrors = false;
+                vm.onGetByIdSuccess = _onGetByIdSuccess;
+                vm.onError = _onError;
+                vm.newCHNForm = true;
+                vm.chnFormData = {};
+                vm.scarSelected = {};
+                vm.objectsSelected = {};
+                vm.chnForm = null;
+                vm.data={};
+
+                vm.notify=vm.$ChnForm1.getNotifier($scope);
+                vm.populateCHNFormById = _populateCHNFormById;
+                vm.onResetBtnClick = _onResetBtnClick;
+                vm.submitBtnClick = _submitBtnClick;
+                vm.onGetByClientIdSuccess = _onGetByClientIdSuccess;
+                vm.saveCHNForm = _saveCHNForm;
+                vm.afterInsertUpdate = _afterInsertUpdate;
+                vm.onInsertSuccess = _onInsertSuccess;
+                vm.onInsertError = _onInsertError;
+                vm.onUpdateSuccess = _onUpdateSuccess;
+                vm.onUpdateError = _onUpdateError;
+                vm.checkBoxValidate = _checkBoxValidate;
+                vm.getObjectsSelected = _getObjectsSelected;
+                vm.getObjects = _getObjects;
+                vm.onGetObjectSuccess = _onGetObjectSuccess;
+                vm.onGetObjectError = _onGetObjectError;
+
+
+
+                render();
+
+                function render() {
+                    vm.objects = [];
+                    vm.$objectsService.getAll(_onGetObjectSuccess, _onGetObjectError);
+
+                    if(vm.$sabio.chnFormId !=null){
+                        vm.$ChnForm1.getById(vm.$sabio.chnFormId, _onGetByIdSuccess, _onError);
+                    }
+
+                    else if(vm.$sabio.clientId)
+                    {
+                        vm.chnFormData.clientId = vm.$sabio.clientId;
+                    }
+                }
+
+                function _onGetObjectSuccess(responseData) {
+                    vm.objects= responseData.items;
+        
+                };
+
+                function _onGetByIdSuccess(data) {
+
+                    vm.populateCHNFormById(data);
+
+                    if(vm.chnFormData.clientId){
+                        vm.$ChnForm1.getByClientId(vm.chnFormData.clientId, _onGetByClientIdSuccess, _onGetByClientIdError);
+                    }
+                }
+
+                function _onGetByClientIdSuccess(data) {
+                    vm.clientForms = data.items;
+                    
+                }
+
+                function _populateCHNFormById(chnFormResponseData) {
+
+                    vm.notify(function() {
+                        
+                        vm.newCHNForm = false;
+
+                        vm.chnFormData=chnFormResponseData.item;
+
+                        angular.forEach(chnFormResponseData.item.objectIds, function(value, key) {
+
+                            vm.objectsSelected[value] = true;
+
+                        });
+                        
+                    });
+                }
+
+                function _checkBoxValidate(){
+
+                    if(vm.objectSelected == null) {
+                        return false;
+                    }
+
+                    for (var i in vm.objectSelected){
+
+                        if(vm.objectSelected [i]===true)
+                        {
+                            return true;
+                        };
+                    };
+
+                    return false;
+                };
+
+                function _getObjects(data) {
+                    var myObjects = data;
+
+                    vm.notify(function() {
+                        vm.objects = myObjects;
+
+                    })
+
+                }
+
+                function _getObjectsSelected() {
+                    var objectIds = [];
+                    var objectSelected = vm.objectsSelected;
+
+                    angular.forEach(objectSelected, function(value,key) {
+                        console.log(key +": " + value);
+
+                        if(value == true) {
+                            objectIds.push(key);
+                        };
+
+                    });
+                    return objectIds;
+                    console.log(vm.objectsSelected);
+                };
+
+                function _submitBtnClick(chnFormData) {
+
+                    vm.showCHNErrors = true;
+                    console.log("submit btn was clicked")
+
+                    if (vm.ChnForm1.$valid) {
+
+                        vm.saveCHNForm(chnFormData);
+                    }
+
+                }
+
+                function _saveCHNForm(data) {
+
+                    data.objectIds = _getObjectsSelected();
+
+                    if(vm.newCHNForm) {
+                        vm.$ChnForm1.insert(data, _onInsertSuccess, _onInsertError);
+                    }
+                    else {
+                        vm.$ChnForm1.update(data.id, data, _onUpdateSuccess, _onUpdateError)
+                    }
+
+                }
+
+                function _onInsertSuccess(ajaxData) {
+                    _afterInsertUpdate(ajaxData.item);
+                    vm.$notificationService.alert("Submitted");
+                    console.log("Insert Success");
+
+                }
+
+                function _onInsertError() {
+                    console.log("Insert Error");
+
+                }
+
+                function _afterInsertUpdate(id) {
+                    vm.newCHNForm = false;
+                    vm.chnFormData.Id = id;
+                    console.log(vm.chnFormId);
+
+                }
+
+                function _onResetBtnClick() {
+
+                    vm.chnFormData = null;
+                    vm.ChnForm1.$setPristine();
+                    vm.ChnForm1.$setUntouched();
+                }
+
+                function _onUpdateSuccess() {
+                    vm.$notificationService.alert("Update Confirmed")
+                    console.log("update success")
+
+                }
+
+                function _onUpdateError() {
+                    console.log("error");
+
+                }
+
+                function _onError() {
+                    vm.$notificationService.warning("CHN Error");
+                }
+
+                function _onGetByClientIdError() {
+                    vm.$notificationService.warning("ClientID Error");
+                }
+
+                function _onGetObjectError(){
+                    console.log("Failed to get Objects")
+                }
+            }
+        })();
+
+
+    </script>
+
+}
+
+
+    }
+
